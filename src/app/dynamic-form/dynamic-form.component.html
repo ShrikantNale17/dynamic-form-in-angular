@@ -1,0 +1,78 @@
+<div class="ms-5 w-100" *ngIf="rawFormData.length">
+    <h5>Form</h5>
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()" class="border border-secondary p-4 border-opacity-10 rounded">
+        <div *ngFor="let field of rawFormData">
+            <div [ngSwitch]="field.type">
+                <div class="row mb-3" *ngSwitchCase="'text'">
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">{{field.label}}</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="Enter {{field.label}}"
+                            formControlName="{{field.name}}">
+                    </div>
+                </div>
+                <div class="row mb-3" *ngSwitchCase="'textarea'">
+                    <label for="exampleFormControlTextarea1" class="col-sm-3 col-form-label">{{field.label}}</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            formControlName="{{field.name}}"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-3" *ngSwitchCase="'select'">
+                    <label for="inputPassword3" class="col-sm-3 col-form-label">{{field.label}}</label>
+                    <div class="col-sm-9">
+                        <!-- <input type="text" class="form-control" id="inputPassword3" > -->
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="{{field.name}}">
+                            <option value="">select {{field.name}}</option>
+                            <option *ngFor="let value of field.value" value="{{value}}">{{value}}</option>
+                            <!-- <option value="textarea">textarea</option>
+                            <option value="select">select</option>
+                            <option value="radio">radio</option>
+                            <option value="checkbox">checkbox</option> -->
+                        </select>
+                    </div>
+                </div>
+                <fieldset class="row mb-3" *ngSwitchCase="'radio'">
+                    <legend class="col-form-label col-sm-3 pt-0">{{field.label}}</legend>
+                    <div class="col-sm-9">
+                        <div class="form-check" *ngFor="let radio of field.value">
+                            <input class="form-check-input" type="radio" id="{{radio}}" value="{{radio}}"
+                                formControlName="{{field.name}}">
+                            <label class="form-check-label" for="{{radio}}">
+                                {{radio}}
+                            </label>
+                        </div>
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="radio" id="gridRadios3" value="option3"
+                                formControlName="{{field.name}}">
+                            <label class="form-check-label" for="gridRadios3">
+                                Second radio
+                            </label>
+                        </div> -->
+                    </div>
+                </fieldset>
+                <fieldset class="row mb-3" *ngSwitchCase="'checkbox'">
+                    <legend class="col-form-label col-sm-3 pt-0">{{field.label}}</legend>
+                    <div class="col-sm-9">
+                        <div class="form-check" *ngFor="let check of field.value">
+                            <input class="form-check-input" type="checkbox" id="{{check}}" value="{{check}}"
+                                name="{{field.name}}" (change)="handleCheckBox($event)"
+                                [checked]="formData.get(field.name)?.value.includes(check)">
+                            <label class="form-check-label" for="{{check}}">
+                                {{check}}
+                            </label>
+                        </div>
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck1">
+                            <label class="form-check-label" for="gridCheck1">
+                                Example checkbox
+                            </label>
+                        </div> -->
+                    </div>
+                </fieldset>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
